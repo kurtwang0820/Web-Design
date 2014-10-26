@@ -1,0 +1,38 @@
+<!-- This is a webpage that I made with jQuery, ajax and flickr api, just for fun, enjoy it.-->
+<html>
+<head>
+<meta name="author" name="Ziliang Wang" />
+<script src="http://code.jquery.com/jquery-latest.js">
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#button").click(function(){
+			$("#images").empty();
+			var kinds=$("#pickinds").val();
+			var nums=$("#numpics").val();
+			$("#images").append("<img class='img' src='ajax-loader.gif' />");
+			$.getJSON("https://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",{
+				tags: kinds,//photo you want to see
+				tagmode:"any",
+				format:"json"
+			},function(data){
+				$.each(data.items,function(i,item){
+					$(".img").remove();
+					$("<img/>").attr("src",item.media.m).appendTo('#images');
+					if(i==nums-1) return false;//always create 31 images
+				});
+			});
+		});
+	});
+</script>
+</head>
+<body>
+<p>This webpage uses flickr api to get picture with given tag</p>
+<p>If you don't specify the type of the picture, it will randomly return pictures with any tags</p>
+<p>If you don't specify the number(max 20) of pictures, it will show 20 pictures by default</p>
+<p>What kind of pictures you want to see:<input type="text" id="pickinds" /><br /></p>
+<p>How many pictures you want to see:<input type="text" id="numpics" /><br /></p>
+<p><input type="button" id="button" value="get pics!" /></p>
+<div id="images"></div>
+</body>
+</html>
