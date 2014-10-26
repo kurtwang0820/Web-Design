@@ -19,7 +19,7 @@
 				$.each(data.items,function(i,item){
 					$(".img").remove();
 					$("<img/>").attr("src",item.media.m).appendTo('#images');
-					if(i==nums-1) return false;//always create 31 images
+					if(i==nums-1) return false;
 				});
 			});
 		});
